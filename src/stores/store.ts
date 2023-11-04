@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Actions } from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import previewReducer from "./preview/previewSlice";
 
 const store = configureStore({
@@ -20,5 +20,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
-  Actions<string>
+  Action<string>
 >;
