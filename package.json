@@ -13,6 +13,7 @@
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.6",
     "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/language": "^6.6.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@uiw/react-codemirror": "^4.21.20",
     "path": "^0.12.7",

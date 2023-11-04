@@ -1,17 +1,34 @@
-import React, { useEffect, useState } from "react";
-import {useSelector} from 'react-redux'
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { preview as previewCode } from "../stores/preview/previewSlice";
+import DebugBar from "./DebugBar";
 
 // interface PreviewProps {
 
 // }
 
 const Preview: React.FC = () => {
-    const [code, setCode] = useState<string>("")
-    const preview = useSelector(previewCode);
-
-    useEffect(() => {
-          setCode(`
+  const [code, setCode] = useState<string>("");
+  const [errorLogs, setErrorLogs] = useState<string[]>([]);
+  const iframe = useRef<HTMLIFrameElement>(null);
+  const preview = useSelector(previewCode);
+  // TODO
+  function minify(code: string) {
+    return code;
+  }
+  useEffect(() => {
+    try {
+      window.eval;
+      if (iframe.current && iframe.current.contentWindow)
+        (iframe.current.contentWindow as Window & typeof globalThis).eval(
+          preview.js
+        );
+    } catch (error: any) {
+      //   errorLogs.push(error.message);
+      setErrorLogs([...errorLogs, error]);
+    }
+    setCode(
+      minify(`
         <!doctype html>
 <html lang="en">
   <head>
@@ -20,28 +37,21 @@ const Preview: React.FC = () => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Code Playground</title>
     <style type="text/css">  ${preview.style}</style>
-    <script>  ${preview.js}</script>
   </head>
   <body>
   ${preview.html}
   </body>
 </html>
-          `);
-    }, [preview]);
-    
-    function handleErrorCapture() {
-        console.log(3);
-    }
-    return (
-      <>
-        <iframe
-          onError={handleErrorCapture}
-          onErrorCapture={handleErrorCapture}
-          className="h-full w-full"
-          srcDoc={code}
-        ></iframe>
-      </>
+          `)
     );
+  }, [preview]);
+
+  return (
+    <>
+      <DebugBar />
+      <iframe className="h-full w-full" srcDoc={code} ref={iframe}></iframe>
+    </>
+  );
 };
 
 export default Preview;
