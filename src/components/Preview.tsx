@@ -14,9 +14,8 @@ const Preview: React.FC = () => {
   const preview = useSelector(previewCode);
   // TODO
   function minify(code: string) {
-    return code;
+      return code;
   }
-
   useEffect(() => {
       try {
           window.eval;
@@ -48,11 +47,20 @@ const Preview: React.FC = () => {
       );
   }, [preview.html, preview.style]);
 
+  useEffect(() => {
+      const iframeDoc = iframe.current?.contentDocument || iframe.current?.contentWindow?.document;
+      if (iframeDoc) {
+          iframeDoc.open();
+          iframeDoc.write(code);
+          iframeDoc.close();
+      }
+  }, [code]);
+
   return (
-    <>
-      <DebugBar />
-      <iframe className="h-full w-full" srcDoc={code} ref={iframe}></iframe>
-    </>
+      <>
+          <DebugBar />
+          <iframe className="h-full w-full" ref={iframe}></iframe>
+      </>
   );
 };
 
