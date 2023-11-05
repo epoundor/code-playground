@@ -21,8 +21,9 @@ const Preview: React.FC = () => {
           window.eval;
           if (iframe.current && iframe.current.contentWindow)
               (iframe.current.contentWindow as Window & typeof globalThis).eval(preview.js);
-      } catch (error: { message: string }) {
-          setErrorLogs([...errorLogs, error]);
+      } catch (error: unknown) {
+        const knownError = error as Error;
+          setErrorLogs([...errorLogs, knownError.message]);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preview.js]);
