@@ -2,15 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-  overflow: hidden;
+body {
+    overflow: hidden;
 }
 
-#root{
-  height: 100%;
+#root {
+    height: 100%;
 }
 
-body{
-  width: 100vw;
-  height: 100vh;
+body {
+    width: 100vw;
+    height: 100vh;
 }

@@ -14,18 +14,18 @@ const Preview: React.FC = () => {
   const preview = useSelector(previewCode);
   // TODO
   function minify(code: string) {
-    return code;
+      return code;
   }
-
   useEffect(() => {
       try {
           window.eval;
           if (iframe.current && iframe.current.contentWindow)
               (iframe.current.contentWindow as Window & typeof globalThis).eval(preview.js);
-      } catch (error: any) {
-          //   errorLogs.push(error.message);
-          setErrorLogs([...errorLogs, error]);
+      } catch (error: unknown) {
+        const knownError = error as Error;
+          setErrorLogs([...errorLogs, knownError.message]);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preview.js]);
 
   useEffect(() => {
@@ -48,11 +48,20 @@ const Preview: React.FC = () => {
       );
   }, [preview.html, preview.style]);
 
+  useEffect(() => {
+      const iframeDoc = iframe.current?.contentDocument || iframe.current?.contentWindow?.document;
+      if (iframeDoc) {
+          iframeDoc.open();
+          iframeDoc.write(code);
+          iframeDoc.close();
+      }
+  }, [code]);
+
   return (
-    <>
-      <DebugBar />
-      <iframe className="h-full w-full" srcDoc={code} ref={iframe}></iframe>
-    </>
+      <>
+          <DebugBar />
+          <iframe className="h-full w-full" ref={iframe}></iframe>
+      </>
   );
 };
 
