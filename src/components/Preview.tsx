@@ -16,19 +16,21 @@ const Preview: React.FC = () => {
   function minify(code: string) {
     return code;
   }
+
   useEffect(() => {
-    try {
-      window.eval;
-      if (iframe.current && iframe.current.contentWindow)
-        (iframe.current.contentWindow as Window & typeof globalThis).eval(
-          preview.js
-        );
-    } catch (error: any) {
-      //   errorLogs.push(error.message);
-      setErrorLogs([...errorLogs, error]);
-    }
-    setCode(
-      minify(`
+      try {
+          window.eval;
+          if (iframe.current && iframe.current.contentWindow)
+              (iframe.current.contentWindow as Window & typeof globalThis).eval(preview.js);
+      } catch (error: any) {
+          //   errorLogs.push(error.message);
+          setErrorLogs([...errorLogs, error]);
+      }
+  }, [preview.js]);
+
+  useEffect(() => {
+      setCode(
+          minify(`
         <!doctype html>
 <html lang="en">
   <head>
@@ -36,15 +38,15 @@ const Preview: React.FC = () => {
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Code Playground</title>
-    <style type="text/css">  ${preview.style}</style>
+    <style type="text/css">${preview.style}</style>
   </head>
   <body>
   ${preview.html}
   </body>
 </html>
           `)
-    );
-  }, [preview]);
+      );
+  }, [preview.html, preview.style]);
 
   return (
     <>
