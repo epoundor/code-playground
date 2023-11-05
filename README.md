@@ -11,7 +11,7 @@
 -   Hot reloading
 -   Default tailwind installation
 -   Many templates are available
--   Keyboard snippets        
+-   Keyboard snippets
 
 ## Getting Started
 
