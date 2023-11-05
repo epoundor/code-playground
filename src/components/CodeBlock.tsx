@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
-import { LanguageSupport } from "@codemirror/language";
-import { javascript } from "@codemirror/lang-javascript";
-import { css } from "@codemirror/lang-css";
-import { html } from "@codemirror/lang-html";
+import { LanguageSupport } from '@codemirror/language';
 import { beautify } from '../plugins/prettier';
+import { Lang, languagesMap } from '../constants';
 
-export enum Lang {
-    CSS = 'CSS',
-    JS = 'JS',
-    HTML = 'HTML'
-}
 interface CodeBlockProps {
     onChange: (value: string, viewUpdate?: ViewUpdate) => void;
     height: string;
@@ -19,11 +12,6 @@ interface CodeBlockProps {
     lang: Lang;
 }
 
-const languagesMap = {
-    [Lang.CSS]: [css()],
-    [Lang.JS]: [javascript()],
-    [Lang.HTML]: [html()]
-};
 const CodeBlock: React.FC<CodeBlockProps> = (props) => {
     const [extensions, setextensions] = useState<LanguageSupport[]>([]);
     function onBeautify() {
@@ -37,7 +25,7 @@ const CodeBlock: React.FC<CodeBlockProps> = (props) => {
         return () => {
             setextensions(languagesMap[props.lang]);
         };
-    }, []);
+    }, [props.lang]);
 
     return (
         <div className="flex flex-col bg-[#2b2f36] text-white">
