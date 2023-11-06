@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
+import 'codemirror';
 import { LanguageSupport } from '@codemirror/language';
 import { beautify } from '../plugins/prettier';
 import { Lang, languagesMap } from '../constants';
