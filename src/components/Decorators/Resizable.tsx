@@ -5,6 +5,7 @@ import React, {
     useState,
     useEffect
 } from 'react';
+import { useMitt } from '../../hooks/useMitt';
 
 type ResizeHandleAxis = 'ew' | 'ns';
 
@@ -25,16 +26,18 @@ interface Position {
 const Resizable: React.FC<PropsWithChildren<ResizableProps>> = (props) => {
     const [originalDimensions, setOriginalDimensions] = useState<Dimensions>();
     const [originalPositions, setOriginalPositions] = useState<Position>();
+    const emitter = useMitt();
 
     const resizableElement = useRef<HTMLDivElement>(null);
 
     function resize(event: MouseEvent) {
         if (originalDimensions && originalPositions && resizableElement.current) {
+            emitter.emit('mouseMoveStart');
+
             const width = originalDimensions.width + (event.pageX - originalPositions.x);
             const height = originalDimensions.height + (event.pageY - originalPositions?.y);
-            console.log(width);
             if (props.handle === 'ew') {
-                resizableElement.current.style.width = width + 'px';
+                resizableElement.current.style.width = width + 4 + 'px';
             }
             if (props.handle === 'ns') {
                 resizableElement.current.style.height = height + 'px';
@@ -44,6 +47,7 @@ const Resizable: React.FC<PropsWithChildren<ResizableProps>> = (props) => {
     function stopResize() {
         if (originalPositions) {
             removeEventListener('mousemove', resize);
+            emitter.emit('mouseMoveEnd');
         }
     }
     // I rename this type cause of ts shit

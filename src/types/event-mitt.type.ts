@@ -1,3 +1,5 @@
 export type Events = {
-  toogleConsole: undefined;
+    toogleConsole: undefined;
+    mouseMoveStart: undefined;
+    mouseMoveEnd: undefined;
 };

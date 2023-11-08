@@ -88,7 +88,7 @@ export default function App() {
                 />
             </Resizable>
 
-            <div className="flex-1">
+            <div className="flex-1 relative">
                 <Preview />
             </div>
         </div>
