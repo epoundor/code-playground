@@ -28,7 +28,7 @@ const CodeBlock: React.FC<CodeBlockProps> = (props) => {
     }, [props.lang]);
 
     return (
-        <div className="flex flex-col bg-[#2b2f36] text-white">
+        <div className="flex flex-col bg-[#2b2f36] text-white flex-1">
             <div className="px-4 flex justify-between">
                 <span className="font-semibold">{props.name}</span>
                 <span className="text-sm" onClick={onBeautify}>

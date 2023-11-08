@@ -5,6 +5,7 @@ import { preview as previewCode } from './stores/preview/previewSlice';
 import Preview from './components/Preview';
 import { useEffect } from 'react';
 import { Lang } from './constants';
+import Resizable from './components/Decorators/Resizable';
 
 export default function App() {
     const dispatch = useDispatch();
@@ -61,32 +62,35 @@ export default function App() {
     }, []);
 
     return (
-        <div className="h-full grid grid-rows-3 grid-cols-2">
-            <CodeBlock
-                value={preview.html}
-                height={`${window.innerHeight / 3}px`}
-                onChange={onChangeHtml}
-                name="HTML"
-                lang={Lang.HTML}
-            />
-            <div className="row-span-3">
+        <div className="h-full flex w-full">
+            <Resizable handle="ew" className="flex flex-col" style={{ width: '50%' }}>
+                <CodeBlock
+                    value={preview.html}
+                    height={`${window.innerHeight / 3}px`}
+                    onChange={onChangeHtml}
+                    name="HTML"
+                    lang={Lang.HTML}
+                />
+                <CodeBlock
+                    value={preview.style}
+                    height={`${window.innerHeight / 3}px`}
+                    onChange={onChangeStyle}
+                    name="CSS"
+                    lang={Lang.CSS}
+                />
+
+                <CodeBlock
+                    value={preview.js}
+                    height={`${window.innerHeight / 3}px`}
+                    onChange={onChangeJs}
+                    name="JS"
+                    lang={Lang.JS}
+                />
+            </Resizable>
+
+            <div className="flex-1 relative">
                 <Preview />
             </div>
-            <CodeBlock
-                value={preview.style}
-                height={`${window.innerHeight / 3}px`}
-                onChange={onChangeStyle}
-                name="CSS"
-                lang={Lang.CSS}
-            />
-
-            <CodeBlock
-                value={preview.js}
-                height={`${window.innerHeight / 3}px`}
-                onChange={onChangeJs}
-                name="JS"
-                lang={Lang.JS}
-            />
         </div>
     );
 }
